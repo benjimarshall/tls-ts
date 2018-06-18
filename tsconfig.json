@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "stripInternal": true,
+    "outDir": "build"
+  },
+  "include": [
+    "src/**/*",
+    "*.d.ts"
+  ]
+}

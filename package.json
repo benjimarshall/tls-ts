@@ -1,0 +1,17 @@
+{
+    "name": "tsTemplate",
+    "version": "1.0.0",
+    "description": "Template for typescript projects",
+    "main": "build/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "npm run build && node build/index.js"
+    },
+    "author": "fjt",
+    "devDependencies": {
+        "@types/node": "^10.3.3"
+    },
+    "dependencies": {
+        "typescript": "^2.9.2"
+    }
+}
