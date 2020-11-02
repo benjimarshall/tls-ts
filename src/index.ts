@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as _ from "lodash";
 
 const sampleTextPath = "data/SampleText.txt";
 
@@ -8,18 +9,16 @@ function readSampleText(): string {
 
 function naiveTls(input: string): number {
     const inputArray = [...input];
+    const threeLettersRegExp = /tra/;
 
-    let counter = 0;
-    for (let i = 0; i < inputArray.length - 2; i++) {
-        if (inputArray[i].toLowerCase() === "t"
-            && inputArray[i + 1].toLowerCase() === "r"
-            && inputArray[i + 2].toLowerCase() === "a") {
-
-            counter++;
-        }
-    }
-
-    return counter;
+    // Make list of all trigrams in input by splitting into chunks at offsets 0, 1, and 2
+    return _.chain(_.range(0, 3))
+        .flatMap(i => _.chunk(_.drop(inputArray, i), 3))
+        .map(trigramArray => trigramArray.join(""))
+        .map(_.toLower)
+        .filter(threeLettersRegExp.test.bind(threeLettersRegExp))
+        .value()
+        .length;
 }
 
 console.log(naiveTls(readSampleText()));
