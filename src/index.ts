@@ -1,9 +1,8 @@
 import * as fs from "fs";
 import * as _ from "lodash";
 
-const sampleTextPath = "data/SampleText.txt";
-
 function readSampleText(): string {
+    const sampleTextPath = "data/SampleText.txt";
     return fs.readFileSync(sampleTextPath, "utf8");
 }
 
