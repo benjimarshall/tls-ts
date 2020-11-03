@@ -14,29 +14,26 @@ function getTrigramsFromOffset(input: string, offset: number): string[] {
 
 function getAllTrigrams(input: string): string[] {
     // Make list of all trigrams in input by splitting into chunks at offsets 0, 1, and 2
-    return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i))
-        .filter(s => /[a-z]{3}/.test(s));
+    return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i));
+}
+
+function getAllThreeLetterStrings(input: string): string[] {
+    return getAllTrigrams(input.toLowerCase()).filter(s => /[a-z]{3}/.test(s));
 }
 
 function naiveTls(input: string): number {
     return getAllTrigrams(input).filter(s => /tra/i.test(s)).length;
 }
 
-function dictionaryTls(input: string): _.Dictionary<number> {
-    const trigrams = getAllTrigrams(input.toLowerCase());
-
-    const dictionary: _.Dictionary<number> = {};
-    trigrams.map(trigram =>
-        dictionary[trigram] = (dictionary[trigram] ?? 0) + 1
-    );
-
-    return dictionary;
+function dictionaryTls(input: string): { [trigram: string]: number; } {
+    return _.countBy(getAllThreeLetterStrings(input));
 }
 
-function getEntriesWithValue(dictionary: _.Dictionary<number>, target: number): string[] {
-    return Object.entries(dictionary)
-        .filter(([, value]) => value === target)
-        .map(([key]) => key);
+function getEntriesWithValue(
+    dictionary: { [trigram: string]: number; },
+    target: number
+): string[] {
+    return _.keys(_.pickBy(dictionary, x => x === (target)));
 }
 
 console.log(getEntriesWithValue(dictionaryTls(readSampleText()), 63));
