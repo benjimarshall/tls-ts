@@ -6,18 +6,19 @@ function readSampleText(): string {
     return fs.readFileSync(sampleTextPath, 'utf8');
 }
 
-function naiveTls(input: string): number {
-    const inputArray = [...input];
-    const threeLettersRegExp = /tra/;
+function getTrigramsFromOffset(input: string, offset: number): string[] {
+    // Chunking using regex, using dotAll flag (s) so all whitespace characters get
+    // treated like individual characters in the trigram
+    return input.substring(offset).match(/.{1,3}/gs) ?? [];
+}
 
+function getAllTrigrams(input: string): string[] {
     // Make list of all trigrams in input by splitting into chunks at offsets 0, 1, and 2
-    return _.chain(_.range(0, 3))
-        .flatMap(i => _.chunk(_.drop(inputArray, i), 3))
-        .map(trigramArray => trigramArray.join(''))
-        .map(_.toLower)
-        .filter(threeLettersRegExp.test.bind(threeLettersRegExp))
-        .value()
-        .length;
+    return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i));
+}
+
+function naiveTls(input: string): number {
+    return getAllTrigrams(input).filter(s => /tra/i.test(s)).length;
 }
 
 console.log(naiveTls(readSampleText()));
