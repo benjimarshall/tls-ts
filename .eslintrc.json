@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": true,
+        "browser": false,
         "es2021": true
     },
     "extends": [
@@ -20,17 +20,26 @@
             "error",
             4
         ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "semi": [
             "error",
             "always"
+        ],
+        "eqeqeq": [
+            "error",
+            "smart"
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error",
+        "space-infix-ops": ["error"],
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
         ]
     }
 }
