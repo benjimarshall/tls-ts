@@ -33,7 +33,10 @@ function getEntriesWithValue(
     dictionary: { [trigram: string]: number; },
     target: number
 ): string[] {
-    return _.keys(_.pickBy(dictionary, x => x === (target)));
+    return _(dictionary)
+        .pickBy(x => x === target)
+        .keys()
+        .value();
 }
 
 console.log(getEntriesWithValue(dictionaryTls(readSampleText()), 63));
