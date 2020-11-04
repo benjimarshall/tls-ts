@@ -1,20 +1,26 @@
 import * as fs from 'fs';
-import * as _ from 'lodash';
+import * as _ from 'lodash/fp';
 
 function readSampleText(): string {
     const sampleTextPath = 'data/SampleText.txt';
     return fs.readFileSync(sampleTextPath, 'utf8');
 }
 
-function getTrigramsFromOffset(input: string, offset: number): string[] {
-    // Chunking using regex, using dotAll flag (s) so all whitespace characters get
-    // treated like individual characters in the trigram
-    return input.substring(offset).match(/.{3}/gs) ?? [];
+function getTrigramsFromOffset(input: string): ((offset: number) => string[]) {
+    return (offset: number): string[] => {
+        // Chunking using regex, using dotAll flag (s) so all whitespace characters get
+        // treated like individual characters in the trigram
+        return input.substring(offset).match(/.{3}/gs) ?? [];
+    };
 }
 
 function getAllTrigrams(input: string): string[] {
     // Make list of all trigrams in input by splitting into chunks at offsets 0, 1, and 2
-    return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i));
+    return _.flow(
+        _.map(getTrigramsFromOffset(input)),
+        _.flatten,
+    )(_.range(0, 3));
+    // return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i));
 }
 
 function getAllThreeLetterStrings(input: string): string[] {
@@ -26,17 +32,18 @@ function naiveTls(input: string): number {
 }
 
 function dictionaryTls(input: string): { [trigram: string]: number; } {
-    return _.countBy(getAllThreeLetterStrings(input));
+    return _.countBy(x => x, getAllThreeLetterStrings(input));
 }
 
 function getEntriesWithValue(
     dictionary: { [trigram: string]: number; },
     target: number
 ): string[] {
-    return _(dictionary)
-        .pickBy(x => x === target)
-        .keys()
-        .value();
+    return _.flow(
+        _.pickBy((x: number) => x === target),
+        _.keys
+    )(dictionary);
 }
 
+console.log(naiveTls(readSampleText()));
 console.log(getEntriesWithValue(dictionaryTls(readSampleText()), 63));
