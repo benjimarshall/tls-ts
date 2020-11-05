@@ -53,6 +53,12 @@
         "object-curly-newline": [
             "error",
             { "multiline": true }
-        ]
+        ],
+        "array-element-newline": [
+            "error",
+            "consistent"
+        ],
+        "array-bracket-newline": ["error"],
+        "array-bracket-spacing": ["error"]
     }
 }
