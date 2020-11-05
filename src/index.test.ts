@@ -13,11 +13,9 @@ describe('Naive "tra" counter', () => {
         expect(tls.naiveTls('Nothing to see here.')).toBe(0);
     });
 
-    it('should count a string with various types of whitespace correctly',
-        () => {
-            expect(tls.naiveTls('\n tr\ra \nt\t\r\ntra')).toBe(1);
-        }
-    );
+    it('should count a string with various types of whitespace correctly', () => {
+        expect(tls.naiveTls('\n tr\ra \nt\t\r\ntra')).toBe(1);
+    });
 
     it('should find 63 when counting the sample text naively', () => {
         expect(tls.naiveTls(tls.readSampleText())).toBe(63);
@@ -76,19 +74,15 @@ describe('Dictionary based trigram counter', () => {
 
 describe('Get entries from value function', () => {
     it('should find the right entries by value', () => {
-        expect(tls.getEntriesWithValue({
-            'abc': 1,
-            'def': 2,
-            'ghi': 1,
-        }, 1)).toEqual(['abc', 'ghi']);
+        expect(
+            tls.getEntriesWithValue({ 'abc': 1, 'def': 2, 'ghi': 1 }, 1)
+        ).toEqual(['abc', 'ghi']);
     });
 
     it('should not find any entries if none exist for given value', () => {
-        expect(tls.getEntriesWithValue({
-            'abc': 1,
-            'def': 2,
-            'ghi': 1,
-        }, 3)).toEqual([]);
+        expect(
+            tls.getEntriesWithValue({ 'abc': 1, 'def': 2, 'ghi': 1 }, 3)
+        ).toEqual([]);
     });
 
     test('should find 4 TLS\'s with 63 occurences, including "pre" and "tra"', () => {

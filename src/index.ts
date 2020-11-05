@@ -6,18 +6,18 @@ export function readSampleText(): string {
     return fs.readFileSync(sampleTextPath, 'utf8');
 }
 
-export function getTrigramsFromOffset(input: string, offset: number): string[] {
+function getTrigramsFromOffset(input: string, offset: number): string[] {
     // Chunking using regex, using dotAll flag (s) so all whitespace characters get
     // treated like individual characters in the trigram
     return input.substring(offset).match(/.{3}/gs) ?? [];
 }
 
-export function getAllTrigrams(input: string): string[] {
+function getAllTrigrams(input: string): string[] {
     // Make list of all trigrams in input by splitting into chunks at offsets 0, 1, and 2
     return _.flatMap(_.range(0, 3), i => getTrigramsFromOffset(input, i));
 }
 
-export function getAllThreeLetterStrings(input: string): string[] {
+function getAllThreeLetterStrings(input: string): string[] {
     return getAllTrigrams(input.toLowerCase()).filter(s => /[a-z]{3}/.test(s));
 }
 
