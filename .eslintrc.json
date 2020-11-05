@@ -5,7 +5,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jest/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -40,6 +41,24 @@
                 "before": true,
                 "after": true
             }
-        ]
+        ],
+        "object-curly-spacing": [
+            "error",
+            "always"
+        ],
+        "object-property-newline": [
+            "error",
+            { "allowAllPropertiesOnSameLine": true }
+        ],
+        "object-curly-newline": [
+            "error",
+            { "multiline": true }
+        ],
+        "array-element-newline": [
+            "error",
+            "consistent"
+        ],
+        "array-bracket-newline": ["error"],
+        "array-bracket-spacing": ["error"]
     }
 }
